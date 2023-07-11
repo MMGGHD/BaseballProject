@@ -1,5 +1,11 @@
-
 ```sql
+
+-- 데이터 베이스 생성
+create database btmdb;
+
+-- 데이터 베이스 선택
+use btmdb;
+
 -- stadium 테이블 생성
 create table stadium (
 id int PRIMARY KEY auto_increment,
@@ -37,7 +43,7 @@ created_at timestamp,
 FOREIGN KEY(player_id) REFERENCES player(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 각 테이블 데이터 조회
+
 select * from stadium;
 select * from team;
 select * from player;
@@ -55,6 +61,7 @@ INSERT INTO team(stadium_id, name, created_at) VALUES(2, 'SK 와이번스', '200
 INSERT INTO team(stadium_id, name, created_at) VALUES(3, 'NC 다이노스', '2011-03-31');
 
 -- 선수 테이블(롯데 자이언츠) 데이터 입력
+
 INSERT INTO player(team_id, name, position, created_at) VALUES(1, '이대호', '3루수','1981-06-21');
 INSERT INTO player(team_id, name, position, created_at) VALUES(1, '조경민', '유격수','2004-09-17');
 INSERT INTO player(team_id, name, position, created_at) VALUES(1, '홍민기', '투수','2001-07-20');
@@ -66,6 +73,7 @@ INSERT INTO player(team_id, name, position, created_at) VALUES(1, '김강현', '
 INSERT INTO player(team_id, name, position, created_at) VALUES(1, '박세웅', '우익수','2005-07-21');
 
 -- 선수 테이블(sk와이번스) 데이터 입력
+
 INSERT INTO player(team_id, name, position, created_at) VALUES(2, '정성곤', '3루수','1992-10-02');
 INSERT INTO player(team_id, name, position, created_at) VALUES(2, '김주온', '유격수','1996-12-08');
 INSERT INTO player(team_id, name, position, created_at) VALUES(2, '고효준', '투수','1995-02-13');
@@ -77,6 +85,7 @@ INSERT INTO player(team_id, name, position, created_at) VALUES(2, '엘리아스'
 INSERT INTO player(team_id, name, position, created_at) VALUES(2, '김광현', '우익수','1988-07-22');
 
 -- 선수테이블(NC다이노스) 생성 데이터 입력
+
 INSERT INTO player(team_id, name, position, created_at) VALUES(3, '심창민', '3루수','1998-03-21');
 INSERT INTO player(team_id, name, position, created_at) VALUES(3, '정주영', '유격수','2004-06-08');
 INSERT INTO player(team_id, name, position, created_at) VALUES(3, '서동욱', '투수','2004-02-26');
@@ -89,6 +98,7 @@ INSERT INTO player(team_id, name, position, created_at) VALUES(3, '신영우', '
 
 
 -- 퇴출 선수 테이블 데이터 입력
+
 INSERT INTO out_player(player_id, reason, created_at) VALUES(4, '원정도박', '2014-01-14');
 INSERT INTO out_player(player_id, reason, created_at) VALUES(6, '음주운전', '2018-02-24');
 INSERT INTO out_player(player_id, reason, created_at) VALUES(10, '사기', '2020-03-09');
@@ -97,7 +107,8 @@ INSERT INTO out_player(player_id, reason, created_at) VALUES(18, '협박', '2022
 INSERT INTO out_player(player_id, reason, created_at) VALUES(22, '약물사용', '2023-11-10');
 
 -- 선수 퇴출 목록 생성
-select
+
+select 
 pr.id p_id,
 pr.name p_name,
 pr.position p_position,
@@ -108,4 +119,5 @@ left outer join player pr on op.player_id = pr.id;
 
 -- 피벗 테이블 생성 (포지션 별 팀 야구선수 페이지 보기)
 -- 작성중
+
 ```
