@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBConnection {
     public static Connection getInstance() {
-        String url = "jdbc:mysql://localhost:3306/metadb";
+        String url = "jdbc:mysql://localhost:3306/btmdb";
         String username = "root";
         String password = "root1234";
 

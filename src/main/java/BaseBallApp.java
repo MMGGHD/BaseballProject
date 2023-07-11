@@ -1,3 +1,6 @@
+import model.outPlayer.OutPlayerDAO;
+import model.stadium.StadiumDAO;
+
 public class BaseBallApp {
 
 
@@ -9,7 +12,7 @@ public class BaseBallApp {
 //        String request = sc.nextLine();
 //        System.out.println(request);
 
-//        StadiumDAO sdo = new StadiumDAO();
-//        sdo.StadiumInsert();
+        OutPlayerDAO sdo = new OutPlayerDAO();
+        sdo.outPlayerInsert(13,"머리 안감음");
     }
 }

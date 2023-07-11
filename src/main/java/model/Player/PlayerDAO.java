@@ -1,7 +1,6 @@
 package model.Player;
 
 import db.DBConnection;
-import model.stadium.Stadium;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,31 +15,35 @@ public class PlayerDAO {
         connection = DBConnection.getInstance();
     }
 
-    public void playerInsert(int teamId, String playerName, String position) throws SQLException {
+    public void playerInsert(int teamId, String playerName, String position) {
 
-        String query = "INSERT INTO 선수테이블명 (team_id, player_name, position) VALUES (?, ?, ?, now())";
+        String query = "INSERT INTO player (team_id, name, position, created_at) VALUES (?, ?, ?, now())";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, teamId);
             statement.setString(2, playerName);
             statement.setString(3, position);
-
+            statement.executeUpdate();
             // 응답 : 성공이라는 메시지를 출력한다.
             System.out.println("응답 : 성공");
+        }catch (SQLException e){
+            e.printStackTrace();
         }
 
     }
 
-    public void updatePlayer() throws SQLException {
-        String query = "UPDATE 선수테이블명 SET team_id = null";
+    public void updatePlayer() {
+        String query = "UPDATE player SET team_id = null";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
         }
     }
 
-    public List<Player> getPlayerByTeam(int teamId) throws SQLException {
+    public List<Player> getPlayerByTeam(int teamId) {
 
         List<Player> players = new ArrayList<>();
-        String query = "SELECT * FROM 플레이어 테이블명 where team_id = ?";
+        String query = "SELECT * FROM player where team_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, teamId);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -48,7 +51,11 @@ public class PlayerDAO {
                     Player player = buildPlayerFromResultSet(resultSet);
                     players.add(player);
                 }
+            }catch (SQLException e){
+                e.printStackTrace();
             }
+        }catch (SQLException e){
+            e.printStackTrace();
         }
         return players;
     }
@@ -56,10 +63,10 @@ public class PlayerDAO {
 
 
     public Player buildPlayerFromResultSet(ResultSet rs) throws SQLException {
-        int playerId = rs.getInt("player_id");
-        String playerName = rs.getString("player_name");
+        int playerId = rs.getInt("id");
+        String playerName = rs.getString("name");
         String position = rs.getString("position");
-        Timestamp playerCreatedAt = rs.getTimestamp("player_created_at");
+        Timestamp playerCreatedAt = rs.getTimestamp("created_at");
 
         return Player.builder()
                 .playerId(playerId)

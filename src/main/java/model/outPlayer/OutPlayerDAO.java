@@ -17,15 +17,17 @@ public class OutPlayerDAO {
     public void outPlayerInsert() {
     }
     // 응답 : 성공이라는 메시지를 출력한다.
-    public void outPlayerInsert(int playerId, String reason) throws SQLException {
+    public void outPlayerInsert(int playerId, String reason) {
 
-        String query = "INSERT INTO 퇴출선수테이블명 (player_id, reason) VALUES (?, ?, now())";
+        String query = "INSERT INTO out_player (player_id, reason, created_at) VALUES (?, ?, now())";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, playerId);
             statement.setString(2, reason);
-
+            statement.executeUpdate();
             // 응답 : 성공이라는 메시지를 출력한다.
             System.out.println("응답 : 성공");
+        }catch (SQLException e){
+            e.printStackTrace();
         }
 
     }
