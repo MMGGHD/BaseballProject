@@ -12,7 +12,7 @@ public class PlayerDAO {
 
     private Connection connection;
 
-    public PlayerDAO(){
+    public PlayerDAO() {
         connection = DBConnection.getInstance();
     }
 
@@ -30,28 +30,43 @@ public class PlayerDAO {
 
     }
 
-    public List<Player> getPlayerByTeam(int teamId)throws SQLException {
+    public void updatePlayer() throws SQLException {
+        String query = "UPDATE 선수테이블명 SET team_id = null";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.executeUpdate();
+        }
+    }
+
+    public List<Player> getPlayerByTeam(int teamId) throws SQLException {
 
         List<Player> players = new ArrayList<>();
         String query = "SELECT * FROM 플레이어 테이블명 where team_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, teamId);
-            try(ResultSet resultSet = statement.executeQuery()){
-                while (resultSet.next()) {
-//                    Player player = buildPlayerFromResultSet(resultSet);
-//                    players.add(player);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    Player player = buildPlayerFromResultSet(resultSet);
+                    players.add(player);
                 }
             }
         }
         return players;
     }
     // 응답 : 선수 목록은 Model -> Player를 List에 담아서 출력한다. (team_id는 출력하지 않아도 된다)
-    public void buildPlayerFromResultSet(ResultSet rs) throws SQLException {
-        int playerId = rs.getInt("playe_id");
-        int teamId = rs.getInt("team_id");
+
+
+    public Player buildPlayerFromResultSet(ResultSet rs) throws SQLException {
+        int playerId = rs.getInt("player_id");
         String playerName = rs.getString("player_name");
         String position = rs.getString("position");
         Timestamp playerCreatedAt = rs.getTimestamp("player_created_at");
+
+        return Player.builder()
+                .playerId(playerId)
+                .playerName(playerName)
+                .position(position)
+                .playerCreatedAt(playerCreatedAt)
+                .build();
 
 
     }

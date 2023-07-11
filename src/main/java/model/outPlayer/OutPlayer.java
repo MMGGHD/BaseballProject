@@ -1,4 +1,4 @@
-package model;
+package model.outPlayer;
 
 import java.sql.Timestamp;
 
