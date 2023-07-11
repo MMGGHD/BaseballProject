@@ -1,5 +1,4 @@
 ## README
-
 ```sql
 -- 데이터 베이스 생성
 create database btmdb;
@@ -7,7 +6,7 @@ create database btmdb;
 -- 데이터 베이스 선택
 use btmdb;
 
--- stadium 테이블 생성
+-- 1.1 stadium 테이블 생성
 create table stadium (
 id int PRIMARY KEY auto_increment,
 name varchar (50),
@@ -15,7 +14,7 @@ created_at timestamp
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
--- team 테이블 생성
+-- 1.2 team 테이블 생성
 create table team (
 id int PRIMARY KEY auto_increment,
 stadium_id int,
@@ -24,7 +23,7 @@ created_at timestamp,
 FOREIGN KEY(stadium_id) REFERENCES stadium(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 선수테이블(각 9명) 생성
+-- 1.3 선수테이블(각 9명) 생성
 create table player (
 id int PRIMARY KEY auto_increment,
 team_id int,
@@ -35,7 +34,7 @@ FOREIGN KEY(team_id) REFERENCES team(id),
 CONSTRAINT UKTP UNIQUE KEY (team_id, position)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 퇴출 선수 테이블 생성
+-- 1.4 퇴출 선수 테이블 생성
 create table out_player (
 id int PRIMARY KEY auto_increment,
 player_id int,
@@ -44,11 +43,6 @@ created_at timestamp,
 FOREIGN KEY(player_id) REFERENCES player(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 각 테이블 조회
-select * from stadium;
-select * from team;
-select * from player;
-select * from out_player;
 
 -- stadium 테이블 데이터 입력
 INSERT INTO stadium(name, created_at) VALUES('사직 야구장', '1985-10-14');
@@ -103,7 +97,15 @@ INSERT INTO out_player(player_id, reason, created_at) VALUES(14, '약물사용',
 INSERT INTO out_player(player_id, reason, created_at) VALUES(18, '협박', '2022-05-29');
 INSERT INTO out_player(player_id, reason, created_at) VALUES(22, '약물사용', '2023-11-10');
 
--- 선수 퇴출 목록 생성
+-- 3.4 전체 팀 목록
+select
+tm.name '구단명',
+sm.name '경기장'
+from team tm
+left outer join stadium sm on tm.id = sm.id;
+
+
+-- 3.8 선수 퇴출 목록 생성
 select 
 pr.id p_id,
 pr.name p_name,
@@ -113,7 +115,7 @@ op.created_at o_day
 from out_player op
 left outer join player pr on op.player_id = pr.id;
 
--- 피벗 테이블 생성 (포지션 별 팀 야구선수 페이지 보기)
+-- 3.10 포지션별 팀 야구 선수 페이지
 select 
 pr.position '포지션',
 MAX(if(tm.id = 1, pr.name, null)) '롯데',
@@ -122,12 +124,4 @@ MAX(if(tm.id = 3, pr.name, null)) 'NC'
 from player pr
 left outer join team tm on pr.team_id = tm.id
 group by pr.position;
-
-
--- 3.4 전체 팀 목록
-select
-tm.name '구단명',
-sm.name '경기장'
-from team tm
-left outer join stadium sm on tm.id = sm.id;
 ```
