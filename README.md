@@ -43,6 +43,7 @@ created_at timestamp,
 FOREIGN KEY(player_id) REFERENCES player(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--- 각 테이블 조회
 
 select * from stadium;
 select * from team;
