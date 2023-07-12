@@ -48,6 +48,7 @@ public class TeamRespDTO {
             e.printStackTrace();
         }
         // 응답 : 팀 목록은 Stadium 정보를 조인해서 출력해야 된다. TeamRespDTO가 필요하다.
+        System.out.println("-------------- 팀 홈그라운드 -------------------");
         for (TeamRespDTO teamRespDTO: teams)
              {
                  System.out.println(teamRespDTO.getTeamName()+"의 경기장 : "+teamRespDTO.getStadiumName());

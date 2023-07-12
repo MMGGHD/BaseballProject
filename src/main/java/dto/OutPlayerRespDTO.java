@@ -1,21 +1,91 @@
 package dto;
 
+import db.DBConnection;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import model.Player.Player;
 import model.outPlayer.OutPlayer;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-@Getter @Setter @AllArgsConstructor
+
+@Getter
+@Setter
 public class OutPlayerRespDTO {
 
+    private Connection connection;
+    private String playerId;
+    private String playerName;
+    private String position;
+    private String reason;
+    private Timestamp outPlayerCreatedAt;
 
-    private Player player;
-    private OutPlayer outPlayer;
+    public OutPlayerRespDTO() {
+        connection = DBConnection.getInstance();
+    }
 
+    @Builder
+    public OutPlayerRespDTO(String playerId, String playerName, String position, String reason, Timestamp outPlayerCreatedAt) {
+        this.playerId = playerId;
+        this.playerName = playerName;
+        this.position = position;
+        this.reason = reason;
+        this.outPlayerCreatedAt = outPlayerCreatedAt;
+    }
 
     public void getAllOutPlayer() {
+
+        List<OutPlayerRespDTO> outPlayers = new ArrayList<OutPlayerRespDTO>();
+        String query = "select \n" +
+                "pr.id p_id,\n" +
+                "pr.name p_name,\n" +
+                "pr.position p_position,\n" +
+                "op.reason o_reason,\n" +
+                "op.created_at o_day\n" +
+                "from out_player op\n" +
+                "left outer join player pr on op.player_id = pr.id";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    OutPlayerRespDTO outPlayerRespDTO = buildAllOutPlayerFromResultSet(resultSet);
+                    outPlayers.add(outPlayerRespDTO);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL을 적용하는데 문제가 발생했습니다.");
+            e.printStackTrace();
+        }
+
+
+        System.out.println("---------- 퇴출 선수 목록 -------------------");
+        for (OutPlayerRespDTO outPlayerRespDTO : outPlayers) {
+            System.out.println(
+                    outPlayerRespDTO.getPlayerId() + ", "
+                            + outPlayerRespDTO.getPlayerName()+ ", "
+                            + outPlayerRespDTO.getPosition() + ", "
+                            + outPlayerRespDTO.getReason() + ", "
+                            + outPlayerRespDTO.getOutPlayerCreatedAt());
+        }
     }
-    // 응답 : 야구장 목록은 Model -> Stadium을 List에 담아서 출력한다.
+
+    public OutPlayerRespDTO buildAllOutPlayerFromResultSet(ResultSet rs) throws SQLException {
+        String playerId = rs.getString("p_id");
+        String playerName = rs.getString("p_name");
+        String position = rs.getString("p_position");
+        String reason = rs.getString("o_reason");
+        Timestamp outPlayerCreatedAt = rs.getTimestamp("o_day");
+
+        return OutPlayerRespDTO.builder()
+                .playerId(playerId)
+                .playerName(playerName)
+                .position(position)
+                .reason(reason)
+                .outPlayerCreatedAt(outPlayerCreatedAt)
+                .build();
+    }
 }
+

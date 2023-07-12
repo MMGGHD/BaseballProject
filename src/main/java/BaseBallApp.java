@@ -1,3 +1,5 @@
+import dto.OutPlayerRespDTO;
+import dto.PositionRespDto;
 import dto.TeamRespDTO;
 import model.outPlayer.OutPlayerDAO;
 import model.stadium.StadiumDAO;
@@ -13,7 +15,13 @@ public class BaseBallApp {
 //        String request = sc.nextLine();
 //        System.out.println(request);
 
-        TeamRespDTO dto = new TeamRespDTO();
-        dto.getAllTeam();
+        OutPlayerRespDTO dto = new OutPlayerRespDTO();
+        dto.getAllOutPlayer();
+
+        TeamRespDTO tdto = new TeamRespDTO();
+        tdto.getAllTeam();
+
+        PositionRespDto pdto = new PositionRespDto();
+        pdto.getPositionResp();
     }
 }
