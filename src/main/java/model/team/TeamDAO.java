@@ -5,7 +5,6 @@ import db.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 public class TeamDAO {
 
@@ -23,7 +22,7 @@ public class TeamDAO {
             statement.setString(2, teamName);
             statement.executeUpdate();
             // 응답 : 성공이라는 메시지를 출력한다.
-            System.out.println("응답 : 성공");
+            System.out.println("응답 : 팀 등록 성공");
         }catch (SQLException e){
             e.printStackTrace();
         }

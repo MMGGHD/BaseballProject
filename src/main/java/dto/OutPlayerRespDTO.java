@@ -9,6 +9,8 @@ import model.Player.Player;
 import model.outPlayer.OutPlayer;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,12 +65,17 @@ public class OutPlayerRespDTO {
 
         System.out.println("---------- 퇴출 선수 목록 -------------------");
         for (OutPlayerRespDTO outPlayerRespDTO : outPlayers) {
+
+            String originalDateTime = outPlayerRespDTO.getOutPlayerCreatedAt().toString();
+            LocalDateTime dateTime = LocalDateTime.parse(originalDateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+            String formattedDateTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
             System.out.println(
                     outPlayerRespDTO.getPlayerId() + ", "
                             + outPlayerRespDTO.getPlayerName()+ ", "
                             + outPlayerRespDTO.getPosition() + ", "
                             + outPlayerRespDTO.getReason() + ", "
-                            + outPlayerRespDTO.getOutPlayerCreatedAt());
+                            + formattedDateTime);
         }
     }
 

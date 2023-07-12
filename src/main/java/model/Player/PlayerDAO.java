@@ -1,8 +1,11 @@
 package model.Player;
 
 import db.DBConnection;
+import model.stadium.Stadium;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +45,7 @@ public class PlayerDAO {
         }
     }
 
-    public List<Player> getPlayerByTeam(int teamId) {
+    public void getPlayerByTeam(int teamId) {
 
         List<Player> players = new ArrayList<>();
         String query = "SELECT id, name, position, created_at FROM player where team_id = ?";
@@ -59,10 +62,16 @@ public class PlayerDAO {
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return players;
+        System.out.println("-------------- 팀 선수 목록 -------------------");
+        for (Player player: players)
+        {
+            String originalDateTime = player.getPlayerCreatedAt().toString();
+            LocalDateTime dateTime = LocalDateTime.parse(originalDateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+            String formattedDateTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            System.out.println(player.getPlayerId()+"1번 선수 : "+player.getPlayerName()+"("+player.getPosition()+")"+" 입단일: "+formattedDateTime);
+        }
     }
     // 응답 : 선수 목록은 Model -> Player를 List에 담아서 출력한다. (team_id는 출력하지 않아도 된다)
-
 
     public Player buildPlayerFromResultSet(ResultSet rs) throws SQLException {
         int playerId = rs.getInt("id");
