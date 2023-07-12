@@ -1,3 +1,4 @@
+import dto.TeamRespDTO;
 import model.outPlayer.OutPlayerDAO;
 import model.stadium.StadiumDAO;
 
@@ -12,7 +13,7 @@ public class BaseBallApp {
 //        String request = sc.nextLine();
 //        System.out.println(request);
 
-        OutPlayerDAO sdo = new OutPlayerDAO();
-        sdo.outPlayerInsert(13,"머리 안감음");
+        TeamRespDTO dto = new TeamRespDTO();
+        dto.getAllTeam();
     }
 }

@@ -24,6 +24,7 @@ public class StadiumDAO {
             System.out.println("응답 : 성공");
         }
         catch (SQLException e){
+            System.out.println("SQL을 적용하는데 문제가 발생했습니다.");
             e.printStackTrace();
         }
     }
