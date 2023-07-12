@@ -31,10 +31,12 @@ public class PlayerDAO {
 
     }
 
-    public void updatePlayer() {
-        String query = "UPDATE player SET team_id = null";
+    public void updatePlayer(int playerId) {
+        String query = "Update player Set team_id = null Where id = ?;";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, playerId);
             statement.executeUpdate();
+            System.out.println("응답 : 성공");
         }catch (SQLException e){
             e.printStackTrace();
         }
