@@ -43,7 +43,7 @@ public class PlayerDAO {
     public List<Player> getPlayerByTeam(int teamId) {
 
         List<Player> players = new ArrayList<>();
-        String query = "SELECT * FROM player where team_id = ?";
+        String query = "SELECT id, name, position, created_at FROM player where team_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, teamId);
             try (ResultSet resultSet = statement.executeQuery()) {

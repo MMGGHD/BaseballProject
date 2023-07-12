@@ -1,13 +1,15 @@
 package model.stadium;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 
+@Getter @Setter
 public class Stadium {
 
-    @Getter
     private int stadiumId; // PK
     private String stadiumName;
     private Timestamp stadiumCreatedAt;

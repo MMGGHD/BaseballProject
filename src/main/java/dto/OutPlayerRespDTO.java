@@ -1,7 +1,18 @@
 package dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import model.Player.Player;
+import model.outPlayer.OutPlayer;
+
+
+@Getter @Setter @AllArgsConstructor
 public class OutPlayerRespDTO {
 
+
+    private Player player;
+    private OutPlayer outPlayer;
 
 
     public void getAllOutPlayer() {
