@@ -112,8 +112,8 @@ pr.name p_name,
 pr.position p_position,
 op.reason o_reason,
 op.created_at o_day
-from out_player op
-left outer join player pr on op.player_id = pr.id;
+from player pr
+left outer join out_player op on op.player_id = pr.id;
 
 -- 3.10 포지션별 팀 야구 선수 페이지
 select 
