@@ -14,7 +14,7 @@ public class StadiumService {
     }
     // 스타디움 등록기능
     public void stadiumInsertService(String stadiumName ){
-        stadiumDAO.StadiumInsert(stadiumName);
+        stadiumDAO.stadiumInsert(stadiumName);
 
     }
 

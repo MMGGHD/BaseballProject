@@ -18,7 +18,7 @@ public class PlayerDAO {
         connection = DBConnection.getInstance();
     }
 
-    public void playerInsert(int teamId, String playerName, String position) {
+    public void playerInsert(int teamId, String playerName, String position) throws Exception{
 
         String query = "INSERT INTO player (team_id, name, position, created_at) VALUES (?, ?, ?, now())";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -28,22 +28,14 @@ public class PlayerDAO {
             statement.executeUpdate();
             // 응답 : 성공이라는 메시지를 출력한다.
             System.out.println("응답 : 성공");
-        }catch (SQLException e){
-            e.printStackTrace();
         }
+//        catch (SQLException e){
+//           e.printStackTrace();
+//        }
 
     }
 
-    public void updatePlayer(int playerId) {
-        String query = "Update player Set team_id = null Where id = ?;";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, playerId);
-            statement.executeUpdate();
-            System.out.println("응답 : 성공");
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
+
 
     public void getPlayerByTeam(int teamId) {
 
@@ -52,7 +44,7 @@ public class PlayerDAO {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, teamId);
             try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     Player player = buildPlayerFromResultSet(resultSet);
                     players.add(player);
                 }
@@ -68,7 +60,7 @@ public class PlayerDAO {
             String originalDateTime = player.getPlayerCreatedAt().toString();
             LocalDateTime dateTime = LocalDateTime.parse(originalDateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
             String formattedDateTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            System.out.println(player.getPlayerId()+"1번 선수 : "+player.getPlayerName()+"("+player.getPosition()+")"+" 입단일: "+formattedDateTime);
+            System.out.println(player.getPlayerId()+"번 선수 : "+player.getPlayerName()+"("+player.getPosition()+")"+" 입단일: "+formattedDateTime);
         }
     }
     // 응답 : 선수 목록은 Model -> Player를 List에 담아서 출력한다. (team_id는 출력하지 않아도 된다)
@@ -90,4 +82,3 @@ public class PlayerDAO {
     }
 
 }
-

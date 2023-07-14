@@ -48,8 +48,8 @@ public class OutPlayerRespDTO {
                 "pr.position p_position,\n" +
                 "op.reason o_reason,\n" +
                 "op.created_at o_day\n" +
-                "from out_player op\n" +
-                "left outer join player pr on op.player_id = pr.id";
+                "from player pr\n" +
+                "left outer join  out_player op on op.player_id = pr.id";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -64,18 +64,23 @@ public class OutPlayerRespDTO {
 
 
         System.out.println("---------- 퇴출 선수 목록 -------------------");
+        System.out.println("p.id   p.name   p.position   o.reason     o.day");
         for (OutPlayerRespDTO outPlayerRespDTO : outPlayers) {
 
-            String originalDateTime = outPlayerRespDTO.getOutPlayerCreatedAt().toString();
-            LocalDateTime dateTime = LocalDateTime.parse(originalDateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
-            String formattedDateTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//            String originalDateTime = outPlayerRespDTO.getOutPlayerCreatedAt().toString();
+//            LocalDateTime dateTime = LocalDateTime.parse(originalDateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+//            String formattedDateTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
             System.out.println(
-                    outPlayerRespDTO.getPlayerId() + ", "
-                            + outPlayerRespDTO.getPlayerName()+ ", "
-                            + outPlayerRespDTO.getPosition() + ", "
-                            + outPlayerRespDTO.getReason() + ", "
-                            + formattedDateTime);
+                    outPlayerRespDTO.getPlayerId() + "      "
+                            + outPlayerRespDTO.getPlayerName() + "      "
+                            + outPlayerRespDTO.getPosition() + "      "
+                            + outPlayerRespDTO.getReason() + "      "
+//                            + formattedDateTime);
+                            + outPlayerRespDTO.getOutPlayerCreatedAt());
+
+
+
         }
     }
 

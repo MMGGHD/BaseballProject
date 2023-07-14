@@ -19,8 +19,7 @@ public class TeamService {
 
     // 팀 전체목록 보기 기능
     public void getAllTeamListService() {
-        teamRespDTO.getAllTeam();
-        System.out.println("가나다");
+        teamDAO.getAllTeam();
     }
 
 

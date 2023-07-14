@@ -17,7 +17,7 @@ public class StadiumDAO {
         connection = DBConnection.getInstance();
     }
 
-    public void StadiumInsert(String stadiumName) {
+    public void stadiumInsert(String stadiumName) {
 
         String query = "INSERT INTO stadium (name, created_at) VALUES (?, now())";
         try (PreparedStatement statement = connection.prepareStatement(query)) {

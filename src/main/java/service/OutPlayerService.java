@@ -13,11 +13,8 @@ public class OutPlayerService {
 
         OutPlayerDAO op = new OutPlayerDAO();
         op.outPlayerInsert(playerID, reason);
+        op.updatePlayer(playerID);
 
-        PlayerDAO pr = new PlayerDAO();
-        pr.updatePlayer(playerID);
-
-        System.out.println("성공");
 
 
 

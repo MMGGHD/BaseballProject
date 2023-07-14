@@ -58,9 +58,10 @@ public class PositionRespDto {
 
 
         System.out.println("---------- 포지션별 팀 선수 -------------------");
+        System.out.println("포지션   롯데   SK   NC");
         for (PositionRespDto positionRespDto : positionResps) {
             System.out.println(
-                    positionRespDto.getPosition() + ", "
+                    positionRespDto.getPosition() + ": "
                             + positionRespDto.getTeam1() + ", "
                             + positionRespDto.getTeam2() + ", "
                             + positionRespDto.getTeam3());

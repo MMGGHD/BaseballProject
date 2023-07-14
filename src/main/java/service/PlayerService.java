@@ -14,8 +14,8 @@ public class PlayerService {
     }
 
     //선수등록 기능
-    public void playerInsertService(int teamId, String playerName, String position) {
-//        playerDAO.playerInsert(teamId, playerName, position);
+    public void playerInsertService (int teamId, String playerName, String position) throws Exception{
+        playerDAO.playerInsert(teamId, playerName, position);
         System.out.println(teamId + playerName + position);
     }
 
